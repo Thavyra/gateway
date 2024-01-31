@@ -10,13 +10,13 @@ public class RouteOptions
     public TransformOptions? Transforms { get; set; }
 
     
-    public RouteConfig Build(ServiceOptions service)
+    public RouteConfig Build(ServiceOptions service, string serviceName)
     {
         return new RouteConfig
         {
             RouteId = Name,
-            ClusterId = service.Name,
-            AuthorizationPolicy = service.Authorization is not null ? $"{service.Name}-service-policy" : null,
+            ClusterId = serviceName,
+            AuthorizationPolicy = service.Authorization is not null ? $"{serviceName}-service-policy" : null,
             Match = Match.Build(),
             Transforms = Transforms?.Build()
         };

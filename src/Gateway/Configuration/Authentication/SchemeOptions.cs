@@ -1,9 +1,7 @@
-namespace Gateway.Configuration.Consumers;
+namespace Gateway.Configuration.Authentication;
 
-public class ConsumerOptions
+public class SchemeOptions
 {
-    public required string Name { get; set; }
-
     public string? ClientId { get; set; }
     public string? ClientSecret { get; set; }
     public string? RedirectUri { get; set; }

@@ -1,15 +1,15 @@
 # Demo configuration for the Thavyra API gateway
 
-consumers:
-  - name: apikey
+schemes:
+  apikey:
     key: apikey
     
-  - name: secondkey
+  secondkey:
     key: apikey2
   
 services:
   
-  - name: api
+  api:
     url: http://api
     routes:
       - name: api
@@ -19,25 +19,25 @@ services:
           path:
             set: /
     authorization:
-      consumers: [apikey, secondkey]
+      schemes: [apikey, secondkey]
 
-  - name: accounts
+  accounts:
     url: http://accounts
     routes:
       - name: accounts
         match:
           path: /accounts
     
-  - name: developer-portal
+  developer-portal:
     url: http://developer
     routes:
       - name: developer-portal
         match:
           path: /developer
     authorization:
-      consumers: [apikey]
+      schemes: [apikey]
           
-  - name: transforms
+  transforms:
     routes:
       - name: transforms
         match:

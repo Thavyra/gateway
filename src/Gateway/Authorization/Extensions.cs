@@ -7,35 +7,34 @@ namespace Gateway.Authorization;
 public static class Extensions
 {
     public static IServiceCollection AddGatewayAuthorization(this IServiceCollection services,
-        Configuration.Configuration configuration)
+        IDictionary<string, ServiceOptions> serviceConfig)
     {
         services.AddAuthorization(options =>
         {
-            foreach (var service in configuration.Services)
+            foreach (var (name, service) in serviceConfig)
             {
-                options.AddServicePolicy(service);
+                options.AddServicePolicy(name, service);
             }
         });
         
         return services;
     }
 
-    private static void AddServicePolicy(this AuthorizationOptions options, ServiceOptions service)
+    private static void AddServicePolicy(this AuthorizationOptions options, string name, ServiceOptions service)
     {
         if (service.Authorization is null)
         {
             return;
         }
         
-        options.AddPolicy($"{service.Name}-service-policy", builder => _ = service.Authorization switch
+        options.AddPolicy($"{name}-service-policy", builder =>
         {
-            { Consumers.Count: > 0 } => builder
-                .RequireClaim(Claims.Consumer, service.Authorization.Consumers)
-                .AddAuthenticationSchemes(service.Authorization.Consumers.ToArray()),
-            
-            not null => builder.RequireAuthenticatedUser(),
-            
-            _ => builder.RequireAssertion(_ => true)
+            builder.RequireAuthenticatedUser();
+
+            if (service.Authorization.Schemes.Count > 0)
+            {
+                builder.AddAuthenticationSchemes(service.Authorization.Schemes.ToArray());
+            }
         });
     }
 }
