@@ -16,7 +16,7 @@ public class RouteOptions
         {
             RouteId = Name,
             ClusterId = serviceName,
-            AuthorizationPolicy = service.Authorization is not null ? $"{serviceName}-service-policy" : null,
+            AuthorizationPolicy = service.Authorization is not null ? $"{serviceName}-service-policy" : "anonymous",
             Match = Match.Build(),
             Transforms = Transforms?.Build()
         };
