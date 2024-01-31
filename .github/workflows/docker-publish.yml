@@ -38,7 +38,9 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: Thavyra/gateway
+          images: |
+            thavyra/gateway
+            ghcr.io/thavyra/gateway
 
       - name: Build and push Docker image
         id: build-and-push
