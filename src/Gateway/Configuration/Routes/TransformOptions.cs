@@ -17,6 +17,7 @@ public class TransformOptions
         config = Path switch
         {
             { Set: { } transformPathSet } => config.WithTransformPathSet(transformPathSet),
+            { Pattern: { } transformPathPattern } => config.WithTransformPathRouteValues(transformPathPattern),
             _ => config
         };
 
