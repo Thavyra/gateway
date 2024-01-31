@@ -38,7 +38,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ matrix.registry }}/Thavyra/gateway
+          images: Thavyra/gateway
 
       - name: Build and push Docker image
         id: build-and-push
