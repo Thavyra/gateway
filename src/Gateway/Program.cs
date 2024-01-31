@@ -1,13 +1,15 @@
 using Gateway.Authentication;
 using Gateway.Authorization;
 using Gateway.Configuration;
-using Gateway.Configuration.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Import configuration files
 
 builder.Configuration.AddYamlFile("gateway.yml", optional: true);
+builder.Configuration.AddYamlFile($"gateway.{builder.Environment}.yml", optional: true);
+
+builder.Configuration.AddEnvironmentVariables();
 
 // Parse configuration
 
