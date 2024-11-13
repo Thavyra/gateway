@@ -1,52 +1,30 @@
 # Demo configuration for the Thavyra API gateway
-
-schemes:
-  apikey:
-    key: apikey
-    
-  secondkey:
-    key: apikey2
   
 services:
   
-  api:
-    url: http://api
+  server:
+    url: http://localhost:5128
     routes:
+      - name: openid
+        match:
+          path: "/accounts/{**remainder}"
+      - name: metadata
+        match:
+          path: "/.well-known/openid-configuration"
       - name: api
         match:
-          path: /api
-        transforms:
-          path:
-            set: /
-    authorization:
-      schemes: [apikey, secondkey]
-
-  accounts:
-    url: http://accounts
-    routes:
-      - name: accounts
+          path: "/api/{**remainder}"
+      - name: swagger
         match:
-          path: /accounts
+          path: "/swagger/{**remainder}"
+      - name: docs
+        match:
+          path: "/docs/rest/{**remainder}"
     
-  developer-portal:
-    url: http://developer
+  dashboard:
+    url: http://localhost:3000
     routes:
-      - name: developer-portal
+      - name: fallback
         match:
-          path: /developer
-    authorization:
-      schemes: [apikey]
+          path: "{**catch-all}"
           
-  transforms:
-    routes:
-      - name: transforms
-        match:
-          path: /api/{plugin}/stuff/{**remainder}
-          
-        transforms:
-          path:
-            set: /newpath
-          headers:
-            - name: MyHeader
-              set: MyValue
-            - remove: MyHeader2
